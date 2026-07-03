@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      { "command": "node ./hooks/guard-shell.js" }
+    ],
+    "beforeSubmitPrompt": [
+      { "command": "node ./hooks/guard-secrets.js" }
+    ],
+    "subagentStop": [
+      { "command": "node ./hooks/verify-gate.js", "loop_limit": 2 }
+    ]
+  }
+}

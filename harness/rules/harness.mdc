@@ -1,0 +1,25 @@
+---
+description: Convenciones de operacion del harness agentico (gates de verificacion, subagentes, seguridad y datos).
+alwaysApply: true
+---
+
+# Harness — convenciones de operacion
+
+## Definition of done
+- Antes de declarar una tarea completa, corre los gates: `verify` (lint, typecheck, tests, build segun existan). No afirmes exito si algun gate falla.
+- Prefiere cambios pequenos y revisables. Declara supuestos en vez de adivinar en silencio.
+
+## Cuando usar subagentes
+- Para tareas grandes, paralelizables o multi-area: descompon en subagentes acotados (skill `agent-orchestrator`): plan -> fan-out -> recolectar -> verificar.
+- Cada subagente con una sola responsabilidad y un alcance; ignora/rechaza ediciones fuera de alcance.
+
+## Verificacion y revision
+- Usa `verification-gates` antes de terminar y `adversarial-reviewer` para calificar salidas riesgosas contra una rubrica; reenvia a corregir si falla.
+
+## Seguridad
+- Nunca ejecutes comandos destructivos (borrados recursivos en raiz, force push a main, formateo de disco). El hook de guarda de shell puede bloquearlos.
+- Pregunta antes de cambios de alcance o acciones irreversibles.
+
+## Seguridad y datos
+- Nunca commitees secretos; usa variables de entorno. Aplica least-privilege a los tokens de MCP (OWASP MCP Top 10).
+- Marca el manejo de PII/datos sensibles y respeta las politicas de datos.

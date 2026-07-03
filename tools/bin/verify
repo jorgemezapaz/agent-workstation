@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+'use strict';
+// Corre los gates de verificacion del proyecto en el directorio actual.
+// Uso: verify [--quick]   (--quick = solo lint + typecheck)
+const fs = require('fs');
+const path = require('path');
+const { spawnSync } = require('child_process');
+
+const quick = process.argv.includes('--quick');
+const cwd = process.cwd();
+
+function log(msg) { process.stdout.write(msg + '\n'); }
+
+function readPkg() {
+  try { return JSON.parse(fs.readFileSync(path.join(cwd, 'package.json'), 'utf8')); }
+  catch { return null; }
+}
+
+function runGate(name, cmd, args) {
+  log('-> ' + name + ': ' + cmd + ' ' + args.join(' '));
+  const res = spawnSync(cmd, args, { cwd, stdio: 'inherit', shell: true });
+  const ok = res.status === 0;
+  log(ok ? '   [ok] ' + name : '   [FAIL] ' + name + ' (exit ' + res.status + ')');
+  return ok;
+}
+
+function main() {
+  const pkg = readPkg();
+  if (!pkg) {
+    log('verify: no se detecto package.json en ' + cwd + ' — sin gates de Node que correr.');
+    return 0;
+  }
+  const s = pkg.scripts || {};
+  const gates = [];
+  if (s.lint) gates.push(['lint', 'npm', ['run', 'lint', '--silent']]);
+  if (s.typecheck) gates.push(['typecheck', 'npm', ['run', 'typecheck', '--silent']]);
+  else if (s['type-check']) gates.push(['typecheck', 'npm', ['run', 'type-check', '--silent']]);
+  if (!quick) {
+    if (s.test) gates.push(['test', 'npm', ['test', '--silent']]);
+    if (s.build) gates.push(['build', 'npm', ['run', 'build', '--silent']]);
+  }
+  if (gates.length === 0) {
+    log('verify: no hay scripts de gate (lint/typecheck' + (quick ? '' : '/test/build') + ') en package.json.');
+    return 0;
+  }
+  let allOk = true;
+  for (const [name, cmd, args] of gates) { if (!runGate(name, cmd, args)) allOk = false; }
+  log(allOk ? '\nverify: TODOS los gates pasaron [ok]' : '\nverify: HAY gates fallidos [FAIL]');
+  return allOk ? 0 : 1;
+}
+
+process.exit(main());

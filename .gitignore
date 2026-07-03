@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.idea/
+*.swp
+
+# Backups generados por el instalador
+*.backup.*
+
+# Secretos locales (NO subir credenciales de MCP)
+.env
+*.local.json
+secrets/
