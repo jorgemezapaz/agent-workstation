@@ -55,9 +55,9 @@ done
 # 5) PATH: elimina el bloque del perfil
 for profile in "$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.profile"; do
   [ -f "$profile" ] || continue
-  if grep -qF "# >>> skills-jorge tools >>>" "$profile"; then
+  if grep -qF "# >>> agent-workstation tools >>>" "$profile"; then
     tmp="$(mktemp)"
-    sed '/# >>> skills-jorge tools >>>/,/# <<< skills-jorge tools <<</d' "$profile" > "$tmp"
+    sed '/# >>> agent-workstation tools >>>/,/# <<< agent-workstation tools <<</d' "$profile" > "$tmp"
     mv "$tmp" "$profile"
     info "PATH limpiado en $profile"
   fi

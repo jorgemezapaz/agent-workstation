@@ -1,4 +1,4 @@
-# skills-jorge
+# agent-workstation
 
 Repo portable de **skills**, **MCPs**, **tools** y un **harness agentico** para
 Cursor, instalable en cualquier estacion de trabajo (Windows, macOS o Linux) con
@@ -10,7 +10,7 @@ actualizar todas tus maquinas basta con `git pull`.
 ## Estructura
 
 ```
-skills-jorge/
+agent-workstation/
 ├── skills/              # Cursor Agent Skills (una carpeta con SKILL.md por skill)
 │   └── example-skill/
 ├── mcps/                # Configuracion de servidores MCP (mcp.json)
@@ -29,8 +29,8 @@ Clona el repo donde quieras que viva de forma permanente (no lo borres despues,
 porque los enlaces apuntan aqui):
 
 ```bash
-git clone <URL-de-tu-repo> skills-jorge
-cd skills-jorge
+git clone git@github.com:jorgemezapaz/agent-workstation.git
+cd agent-workstation
 ```
 
 ### macOS / Linux

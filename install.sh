@@ -71,14 +71,14 @@ if [ -d "$TOOLS_BIN" ]; then
     bash) profile="$HOME/.bashrc" ;;
     *)    profile="$HOME/.profile" ;;
   esac
-  marker="# >>> skills-jorge tools >>>"
+  marker="# >>> agent-workstation tools >>>"
   [ -f "$profile" ] || touch "$profile"
   if ! grep -qF "$marker" "$profile"; then
     {
       echo ""
       echo "$marker"
       echo "export PATH=\"$TOOLS_BIN:\$PATH\""
-      echo "# <<< skills-jorge tools <<<"
+      echo "# <<< agent-workstation tools <<<"
     } >> "$profile"
     info "tools/bin agregado al PATH en $profile (reinicia la terminal)"
   else

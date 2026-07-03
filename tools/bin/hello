@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 # Tool de ejemplo. Si ves este mensaje, tools/bin esta en tu PATH.
-echo "hola desde skills-jorge tools (unix) -> ${1:-mundo}"
+echo "hola desde agent-workstation tools (unix) -> ${1:-mundo}"
