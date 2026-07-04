@@ -57,9 +57,13 @@ resuelve `${env:VAR}` al arrancar, por eso el token de GitHub se referencia asi:
 
 ## Notas
 
-- **filesystem** esta scopeado a `${userHome}` (todo tu directorio de usuario).
-  Si prefieres limitarlo, cambia ese argumento por una ruta concreta, p. ej.
-  `"C:\\Users\\Ticmo\\OneDrive\\Documentos\\Jorge"`.
+- **filesystem** usa `${env:USERPROFILE}` (tu carpeta de usuario en Windows).
+  Asi es portable entre PCs Windows sin hardcodear rutas: cada maquina resuelve
+  su propio usuario. Evita `${userHome}`: en Windows resuelve con la unidad en
+  minuscula (`c:\...`) y el server la concatena mal (`C:\c:\Users\...`).
+  - En macOS/Linux cambia ese arg por `${env:HOME}`.
+  - Para acotar el acceso, pon una ruta concreta o define tu propia variable
+    (p. ej. `${env:MCP_FS_ROOT}` y setea esa var en cada maquina).
 - **Windows + npx**: si algun servidor `npx` no conecta en Cursor, envuelve el
   comando con `cmd`: `"command": "cmd"`, `"args": ["/c", "npx", "-y", "..."]`.
   (Rompe la portabilidad a macOS/Linux, usalo solo si hace falta.)
